@@ -1,0 +1,39 @@
+name: Scrape kindle dalily sales and tweet # GitHub Actionsのワークフローの名前を設定します。
+
+on: # このワークフローがトリガーされる条件を定義します。
+  push: # pushイベントが発生したとき
+    branches: main # mainブランチに対するpushのみを対象とします。
+  workflow_dispatch: # このワークフローを手動でトリガーすることを許可します。
+
+jobs: # ワークフローで実行されるジョブを定義します。
+  build: # ジョブの名前を定義します。
+    runs-on: ubuntu-latest # ジョブが実行される環境を指定します。
+
+    steps: # ジョブ内で実行されるステップを定義します。
+      - name: Checkout repository # ステップの名前を設定します。
+        uses: actions/checkout@v2 # GitHubリポジトリのコードをチェックアウトするためのアクションを使用します。
+
+      - name: Set up Python 3.8 # ステップの名前を設定します。
+        uses: actions/setup-python@v2 # Python環境をセットアップするためのアクションを使用します。
+        with:
+          python-version: 3.8 # 使用するPythonのバージョンを指定します。
+
+      - name: Install dependencies # ステップの名前を設定します。
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright # Playwrightをインストールします。
+        run: pip install playwright && playwright install
+
+      - name: Create dot env file # ステップの名前を設定します。
+        shell: bash # 使用するシェルを指定します。
+        run: | # シェルコマンドを実行します。
+          touch .env
+          echo "CONSUMER_KEY=${{secrets.CONSUMER_KEY}}" >> .env
+          echo "CONSUMER_SECRET=${{secrets.CONSUMER_SECRET}}" >> .env
+          echo "ACCESS_TOKEN=${{secrets.ACCESS_TOKEN}}" >> .env
+          echo "ACCESS_SECRET=${{secrets.ACCESS_SECRET}}" >> .env
+
+      - name: Run scrapy # ステップの名前を設定します。
+        run: python yahoo/run_scrapy.py # Scrapyスクリプトを実行します。
