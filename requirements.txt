@@ -112,4 +112,5 @@ scrapy-playwright==0.0.36
 scrapy-selenium==0.0.7
 selenium==3.141.0
 Send2Trash==1.8.0
+tweepy==4.1.0
 Twisted==24.3.0
