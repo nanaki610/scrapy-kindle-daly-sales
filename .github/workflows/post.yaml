@@ -8,15 +8,19 @@ on: # このワークフローがトリガーされる条件を定義します�
 jobs: # ワークフローで実行されるジョブを定義します。
   build: # ジョブの名前を定義します。
     runs-on: ubuntu-latest # ジョブが実行される環境を指定します。
+    strategy: # ジョブの並列実行を設定します。
+      matrix: # マトリックス戦略を使用します。
+        python-version: [3.9] # Pythonのバージョンを指定します。
 
     steps: # ジョブ内で実行されるステップを定義します。
       - name: Checkout repository # ステップの名前を設定します。
         uses: actions/checkout@v2 # GitHubリポジトリのコードをチェックアウトするためのアクションを使用します。
 
-      - name: Set up Python 3.8 # ステップの名前を設定します。
+      - name: Set up Python ${{ matrix.python-version }} # ステップの名前を設定します。
         uses: actions/setup-python@v2 # Python環境をセットアップするためのアクションを使用します。
         with:
-          python-version: 3.8 # 使用するPythonのバージョンを指定します。
+          python-version: ${{ matrix.python-version }} # 使用するPythonのバージョンを指定します。
+          # python-version: 3.8 # 使用するPythonのバージョンを指定します。
 
       - name: Install dependencies # ステップの名前を設定します。
         run: |
