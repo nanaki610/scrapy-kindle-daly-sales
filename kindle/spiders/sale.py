@@ -1,4 +1,3 @@
-import asyncio
 import os
 import sys
 import scrapy
@@ -13,9 +12,6 @@ if parent_dir not in sys.path:
     sys.path.append(parent_dir)
     
 from items import KindleItem
-
-# if asyncio.get_event_loop_policy() is not asyncio.WindowsSelectorEventLoopPolicy:
-#     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 class SaleSpider(scrapy.Spider):
     name = 'sale'

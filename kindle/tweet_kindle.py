@@ -1,5 +1,4 @@
 import csv
-import json
 import os
 import requests
 import tweepy
@@ -31,17 +30,10 @@ script_path = os.path.abspath(__file__)
 script_dir = os.path.dirname(script_path)
 # スクリプトファイルの親ディレクトリパスを取得
 parent_dir = os.path.dirname(script_dir)
-# 'out.json'への絶対パスを作成。out.jsonはスクリプトファイルと同じディレクトリにある前提。
-# json_file_path = os.path.join(script_dir, 'out.json')
-# out.jsonへの絶対パスを作成。out.jsonは親ディレクトリにある前提。
-# json_file_path = os.path.join(parent_dir, 'out.json')
+# csvファイルのパスを取得
 csv_file_path = os.path.join(parent_dir, 'out.csv')
 
 def create_tweet():
-	# out.jsonのデータをまとめて1つの投稿でツイートする
-	# with open(json_file_path, 'r', encoding='utf-8') as f:
-	# 		json_data = json.load(f)
- 
 	# out.csvのデータをまとめて1つの投稿でツイートする
 	with open(csv_file_path, 'r', encoding='utf-8') as f:
 		csv_data = csv.DictReader(f)
